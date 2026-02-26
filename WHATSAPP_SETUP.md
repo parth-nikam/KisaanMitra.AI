@@ -13,9 +13,11 @@
 ### Environment Variables (Already Configured):
 ```bash
 PHONE_NUMBER_ID="1049535664900621"
-WA_TOKEN="EAASSGicffcYBQ5RiIlZAq0DCTcWf26FbQ55VQZBuOm16SfRjaq32LpPAlqWhaQoEtaJLTonGHIXaP3HK9MXgEvQjcB5QBb2B2FGADF7aQQaGCOBQEeCHhPRwWotPIX4udUJ9baOetgb8uAygfu7SZASXF5ggyquO7wGbg9YZBy2Y5e5zZCGMKLZBiCzJ1GJ3y8gwZDZD"
+WA_TOKEN="<your-current-token-from-aws-console>"
 VERIFY_TOKEN="mySecret_123"
 ```
+
+**Note**: The actual token value is visible in your AWS Lambda Console. Use that exact value when migrating.
 
 ## 🎯 Integration Options
 
@@ -69,11 +71,19 @@ aws lambda get-function-configuration --function-name whatsapp-llama-bot \
 
 ### Step 2: Update Environment Variables
 ```bash
+# Get current token from existing function
+CURRENT_TOKEN=$(aws lambda get-function-configuration \
+  --function-name whatsapp-llama-bot \
+  --region ap-south-1 \
+  --query 'Environment.Variables.WA_TOKEN' \
+  --output text)
+
+# Update with all KisaanMitra variables
 aws lambda update-function-configuration \
   --function-name whatsapp-llama-bot \
   --environment "Variables={
     PHONE_NUMBER_ID=1049535664900621,
-    WA_TOKEN=EAASSGicffcYBQ5RiIlZAq0DCTcWf26FbQ55VQZBuOm16SfRjaq32LpPAlqWhaQoEtaJLTonGHIXaP3HK9MXgEvQjcB5QBb2B2FGADF7aQQaGCOBQEeCHhPRwWotPIX4udUJ9baOetgb8uAygfu7SZASXF5ggyquO7wGbg9YZBy2Y5e5zZCGMKLZBiCzJ1GJ3y8gwZDZD,
+    WHATSAPP_TOKEN=$CURRENT_TOKEN,
     VERIFY_TOKEN=mySecret_123,
     CROP_HEALTH_API_KEY=7zcdeWIQkRj5k5DyBLS32bKRtSvlTNw7nfGmWYIl9Hvk41TaVs,
     CONVERSATION_TABLE=kisaanmitra-conversations,
