@@ -338,7 +338,7 @@ Should NOT see:
 
 Confirmed in Lambda:
 ```
-OPENWEATHER_API_KEY=778806f14f0375755d373c9dd5d83b50
+OPENWEATHER_API_KEY=[YOUR_KEY_HERE]
 ```
 
 API Key Details:
